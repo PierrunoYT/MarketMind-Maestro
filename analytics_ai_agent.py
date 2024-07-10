@@ -24,18 +24,30 @@ class AnalyticsAIAgent:
         return self.call_openrouter_api(prompt)
 
     def call_openrouter_api(self, prompt):
-        """Make an API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
+        """Make a streaming API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
         data = {
             "model": "anthropic/claude-3-sonnet-20240229",
-            "messages": [{"role": "user", "content": prompt}]
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": True
         }
-        response = requests.post(self.base_url, headers=headers, json=data)
+        response = requests.post(self.base_url, headers=headers, json=data, stream=True)
         if response.status_code == 200:
-            return response.json()['choices'][0]['message']['content']
+            full_response = ""
+            for line in response.iter_lines():
+                if line:
+                    chunk = line.decode('utf-8')
+                    if chunk.startswith("data: "):
+                        chunk_data = json.loads(chunk[6:])
+                        if chunk_data['choices'][0]['finish_reason'] is None:
+                            content = chunk_data['choices'][0]['delta'].get('content', '')
+                            full_response += content
+                            print(content, end='', flush=True)
+            print()  # Print a newline at the end
+            return full_response
         else:
             return f"Error: {response.status_code}, {response.text}"
 

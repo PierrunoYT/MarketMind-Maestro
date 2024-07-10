@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 from marketing_ai_agent import MarketingAIAgent
 from sales_ai_agent import SalesAIAgent
@@ -80,33 +81,32 @@ class MarketingTeam:
         content = []
 
         # Marketing Agent's input
-        print(f"{Fore.RED}Marketing Agent thinking...", end='', flush=True)
+        print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
         marketing_input = self.marketing_agent.generate_campaign_idea(product)
-        print(f"\r{Fore.RED}Marketing Agent: {marketing_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
+        print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Sales Agent's input
-        print(f"{Fore.GREEN}Sales Agent thinking...", end='', flush=True)
+        print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
         sales_input = self.sales_agent.generate_sales_pitch(product)
-        print(f"\r{Fore.GREEN}Sales Agent: {sales_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Sales Pitch", "content": sales_input})
+        print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Strategy Agent's input
-        print(f"{Fore.YELLOW}Strategy Agent thinking...", end='', flush=True)
+        print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
         strategy_input = self.strategy_agent.analyze_market_trends(product)
-        print(f"\r{Fore.YELLOW}Strategy Agent: {strategy_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
+        print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Analytics Agent's input
-        print(f"{Fore.MAGENTA}Analytics Agent thinking...", end='', flush=True)
-        analytics_input = self.analytics_agent.suggest_target_audience(product)
-        print(f"\r{Fore.MAGENTA}Analytics Agent: {analytics_input}{Style.RESET_ALL}\n", flush=True)
-        content.append({"title": "Target Audience Suggestion", "content": analytics_input})
+        print(f"{Fore.MAGENTA}Analytics Agent: ", end='', flush=True)
+        analytics_input = self.analytics_agent.analyze_target_audience(product)
+        content.append({"title": "Target Audience Analysis", "content": analytics_input})
+        print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Final plan synthesis
-        print(f"{Fore.BLUE}Synthesizing final plan...", end='', flush=True)
+        print(f"{Fore.BLUE}Synthesizing final plan...\n", flush=True)
         final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input, product)
-        print(f"\r{Fore.BLUE}Final Marketing Plan:\n{final_plan}{Style.RESET_ALL}", flush=True)
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
         # Create styled Word document
