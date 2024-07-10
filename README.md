@@ -34,11 +34,24 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 ## Setup
 
 1. Clone this repository
-2. Install the required packages:
+2. Create a virtual environment:
+   ```
+   python -m venv venv
+   ```
+3. Activate the virtual environment:
+   - On Windows:
+     ```
+     venv\Scripts\activate
+     ```
+   - On macOS and Linux:
+     ```
+     source venv/bin/activate
+     ```
+4. Install the required packages:
    ```
    pip install -r requirements.txt
    ```
-3. Create a `.env` file in the project root directory and add your OpenRouter API key:
+5. Create a `.env` file in the project root directory and add your OpenRouter API key:
    ```
    OPENROUTER_API_KEY=your_api_key_here
    ```
