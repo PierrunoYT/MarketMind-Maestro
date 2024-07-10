@@ -47,11 +47,16 @@ class MarketingAIAgent:
                 if line:
                     chunk = line.decode('utf-8')
                     if chunk.startswith("data: "):
-                        chunk_data = json.loads(chunk[6:])
-                        if chunk_data['choices'][0]['finish_reason'] is None:
-                            content = chunk_data['choices'][0]['delta'].get('content', '')
-                            full_response += content
-                            print(content, end='', flush=True)
+                        try:
+                            chunk_data = json.loads(chunk[6:])
+                            if chunk_data['choices'][0]['finish_reason'] is None:
+                                content = chunk_data['choices'][0]['delta'].get('content', '')
+                                full_response += content
+                                print(content, end='', flush=True)
+                        except json.JSONDecodeError as e:
+                            print(f"Error decoding JSON: {e}")
+                            print(f"Problematic chunk: {chunk}")
+                            continue
             print()  # Print a newline at the end
             return full_response
         else:

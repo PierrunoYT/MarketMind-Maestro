@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from dotenv import load_dotenv
 from marketing_ai_agent import MarketingAIAgent
 from sales_ai_agent import SalesAIAgent
@@ -15,6 +16,9 @@ init(autoreset=True)
 
 # Load environment variables
 load_dotenv()
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_styled_document(content):
     doc = Document()
@@ -77,40 +81,47 @@ class MarketingTeam:
 
     def discuss_marketing_plan(self, product):
         print(f"{Fore.CYAN}Marketing Team discussing: {product}{Style.RESET_ALL}\n", flush=True)
+        logging.info(f"Starting marketing plan discussion for {product}")
 
         content = []
 
         # Marketing Agent's input
         print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
         marketing_input = self.marketing_agent.generate_campaign_idea(product)
+        logging.debug(f"Marketing Agent response: {marketing_input}")
         content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Sales Agent's input
         print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
         sales_input = self.sales_agent.generate_sales_pitch(product)
+        logging.debug(f"Sales Agent response: {sales_input}")
         content.append({"title": "Sales Pitch", "content": sales_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Strategy Agent's input
         print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
         strategy_input = self.strategy_agent.analyze_market_trends(product)
+        logging.debug(f"Strategy Agent response: {strategy_input}")
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Analytics Agent's input
         print(f"{Fore.MAGENTA}Analytics Agent: ", end='', flush=True)
         analytics_input = self.analytics_agent.analyze_target_audience(product)
+        logging.debug(f"Analytics Agent response: {analytics_input}")
         content.append({"title": "Target Audience Analysis", "content": analytics_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Final plan synthesis
         print(f"{Fore.BLUE}Synthesizing final plan...\n", flush=True)
         final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input, product)
+        logging.debug(f"Final plan: {final_plan}")
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
         # Create styled Word document
         create_styled_document(content)
+        logging.info("Marketing plan discussion completed")
 
     def synthesize_plan(self, marketing, sales, strategy, analytics, product):
         prompt = f"""
