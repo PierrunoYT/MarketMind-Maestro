@@ -30,7 +30,7 @@ class AnalyticsAIAgent:
             "Content-Type": "application/json"
         }
         data = {
-            "model": "anthropic/claude-3-sonnet-20240229",
+            "model": "anthropic/claude-3.5-sonnet",
             "messages": [{"role": "user", "content": prompt}],
             "stream": True
         }
