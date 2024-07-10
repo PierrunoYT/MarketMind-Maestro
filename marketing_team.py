@@ -1,13 +1,15 @@
 import os
 from marketing_ai_agent import MarketingAIAgent
 from sales_ai_agent import SalesAIAgent
+from strategy_ai_agent import StrategyAIAgent
+from analytics_ai_agent import AnalyticsAIAgent
 
 class MarketingTeam:
     def __init__(self):
         self.marketing_agent = MarketingAIAgent()
         self.sales_agent = SalesAIAgent()
-        self.strategy_agent = MarketingAIAgent()  # Using MarketingAIAgent for strategy
-        self.analytics_agent = MarketingAIAgent()  # Using MarketingAIAgent for analytics
+        self.strategy_agent = StrategyAIAgent()
+        self.analytics_agent = AnalyticsAIAgent()
 
     def discuss_marketing_plan(self, question):
         print(f"Marketing Team discussing: {question}\n")
