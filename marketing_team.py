@@ -1,8 +1,26 @@
 import os
+from dotenv import load_dotenv
 from marketing_ai_agent import MarketingAIAgent
 from sales_ai_agent import SalesAIAgent
 from strategy_ai_agent import StrategyAIAgent
 from analytics_ai_agent import AnalyticsAIAgent
+
+# Load environment variables
+load_dotenv()
+
+def check_api_key():
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        print("OpenRouter API key not found in .env file.")
+        new_key = input("Please enter your OpenRouter API key: ").strip()
+        if new_key:
+            with open(".env", "a") as env_file:
+                env_file.write(f"\nOPENROUTER_API_KEY={new_key}")
+            print("API key has been added to .env file.")
+            os.environ["OPENROUTER_API_KEY"] = new_key
+        else:
+            print("No API key provided. Exiting.")
+            exit(1)
 
 class MarketingTeam:
     def __init__(self):
@@ -47,6 +65,7 @@ class MarketingTeam:
         return self.marketing_agent.call_openrouter_api(prompt)
 
 def main():
+    check_api_key()
     team = MarketingTeam()
     question = input("Enter your marketing question: ")
     team.discuss_marketing_plan(question)
