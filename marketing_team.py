@@ -39,8 +39,8 @@ def create_styled_document(content):
 
 def check_api_key():
     api_key = os.getenv("OPENROUTER_API_KEY")
-    while not api_key:
-        print("OpenRouter API key not found.")
+    if not api_key:
+        print("OpenRouter API key not found in environment variables.")
         new_key = input("Please enter your OpenRouter API key: ").strip()
         if new_key:
             with open(".env", "a") as env_file:
@@ -49,7 +49,8 @@ def check_api_key():
             os.environ["OPENROUTER_API_KEY"] = new_key
             api_key = new_key
         else:
-            print("No API key provided. Please try again.")
+            print("No API key provided. Exiting.")
+            exit(1)
     return api_key
 
 class MarketingTeam:
