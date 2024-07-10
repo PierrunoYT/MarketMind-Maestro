@@ -45,20 +45,21 @@ class MarketingAIAgent:
             full_response = ""
             for line in response.iter_lines():
                 if line:
-                    chunk = line.decode('utf-8')
+                    chunk = line.decode('utf-8').strip()
                     if chunk.startswith("data: "):
                         try:
                             chunk_data = json.loads(chunk[6:])
-                            if chunk_data['choices'][0]['finish_reason'] is None:
-                                content = chunk_data['choices'][0]['delta'].get('content', '')
-                                full_response += content
-                                print(content, end='', flush=True)
+                            if 'choices' in chunk_data and chunk_data['choices']:
+                                if chunk_data['choices'][0]['finish_reason'] is None:
+                                    content = chunk_data['choices'][0]['delta'].get('content', '')
+                                    full_response += content
+                                    print(content, end='', flush=True)
                         except json.JSONDecodeError as e:
                             print(f"Error decoding JSON: {e}")
                             print(f"Problematic chunk: {chunk}")
                             continue
             print()  # Print a newline at the end
-            return full_response
+            return full_response if full_response else "No valid response received from the API."
         else:
             return f"Error: {response.status_code}, {response.text}"
 
