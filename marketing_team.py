@@ -7,6 +7,10 @@ from analytics_ai_agent import AnalyticsAIAgent
 from docx import Document
 from docx.shared import Pt
 from docx.enum.style import WD_STYLE_TYPE
+from colorama import init, Fore, Style
+
+# Initialize colorama
+init(autoreset=True)
 
 # Load environment variables
 load_dotenv()
@@ -71,33 +75,33 @@ class MarketingTeam:
         self.analytics_agent = AnalyticsAIAgent()
 
     def discuss_marketing_plan(self, question):
-        print(f"Marketing Team discussing: {question}\n")
+        print(f"{Fore.CYAN}Marketing Team discussing: {question}{Style.RESET_ALL}\n")
 
         content = []
 
         # Marketing Agent's input
         marketing_input = self.marketing_agent.generate_campaign_idea()
-        print(f"Marketing Agent: {marketing_input}\n")
+        print(f"{Fore.RED}Marketing Agent: {marketing_input}{Style.RESET_ALL}\n")
         content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
 
         # Sales Agent's input
         sales_input = self.sales_agent.generate_sales_pitch("the proposed marketing campaign")
-        print(f"Sales Agent: {sales_input}\n")
+        print(f"{Fore.GREEN}Sales Agent: {sales_input}{Style.RESET_ALL}\n")
         content.append({"title": "Sales Pitch", "content": sales_input})
 
         # Strategy Agent's input
         strategy_input = self.strategy_agent.analyze_market_trends()
-        print(f"Strategy Agent: {strategy_input}\n")
+        print(f"{Fore.YELLOW}Strategy Agent: {strategy_input}{Style.RESET_ALL}\n")
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
 
         # Analytics Agent's input
         analytics_input = self.analytics_agent.suggest_target_audience()
-        print(f"Analytics Agent: {analytics_input}\n")
+        print(f"{Fore.MAGENTA}Analytics Agent: {analytics_input}{Style.RESET_ALL}\n")
         content.append({"title": "Target Audience Suggestion", "content": analytics_input})
 
         # Final plan synthesis
         final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input)
-        print(f"Final Marketing Plan:\n{final_plan}")
+        print(f"{Fore.BLUE}Final Marketing Plan:\n{final_plan}{Style.RESET_ALL}")
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
         # Create styled Word document
