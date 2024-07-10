@@ -79,7 +79,7 @@ class MarketingTeam:
         self.strategy_agent = StrategyAIAgent()
         self.analytics_agent = AnalyticsAIAgent()
 
-    def discuss_marketing_plan(self, product):
+    def discuss_marketing_plan(self, product, additional_info=None):
         print(f"{Fore.CYAN}Marketing Team discussing: {product}{Style.RESET_ALL}\n", flush=True)
         logging.info(f"Starting marketing plan discussion for {product}")
 
@@ -87,35 +87,35 @@ class MarketingTeam:
 
         # Marketing Agent's input
         print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
-        marketing_input = self.marketing_agent.generate_campaign_idea(product)
+        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info)
         logging.debug(f"Marketing Agent response: {marketing_input}")
         content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Sales Agent's input
         print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
-        sales_input = self.sales_agent.generate_sales_pitch(product)
+        sales_input = self.sales_agent.generate_sales_pitch(product, additional_info)
         logging.debug(f"Sales Agent response: {sales_input}")
         content.append({"title": "Sales Pitch", "content": sales_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Strategy Agent's input
         print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
-        strategy_input = self.strategy_agent.analyze_market_trends(product)
+        strategy_input = self.strategy_agent.analyze_market_trends(product, additional_info)
         logging.debug(f"Strategy Agent response: {strategy_input}")
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Analytics Agent's input
         print(f"{Fore.MAGENTA}Analytics Agent: ", end='', flush=True)
-        analytics_input = self.analytics_agent.analyze_target_audience(product)
+        analytics_input = self.analytics_agent.analyze_target_audience(product, additional_info)
         logging.debug(f"Analytics Agent response: {analytics_input}")
         content.append({"title": "Target Audience Analysis", "content": analytics_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Final plan synthesis
         print(f"{Fore.BLUE}Synthesizing final plan...\n", flush=True)
-        final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input, product)
+        final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input, product, additional_info)
         logging.debug(f"Final plan: {final_plan}")
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
@@ -123,7 +123,7 @@ class MarketingTeam:
         create_styled_document(content)
         logging.info("Marketing plan discussion completed")
 
-    def synthesize_plan(self, marketing, sales, strategy, analytics, product):
+    def synthesize_plan(self, marketing, sales, strategy, analytics, product, additional_info):
         prompt = f"""
         Synthesize a comprehensive marketing plan for {product} based on the following inputs:
         Marketing: {marketing}
@@ -131,7 +131,13 @@ class MarketingTeam:
         Strategy: {strategy}
         Analytics: {analytics}
 
-        Provide a cohesive plan that incorporates insights from all agents, specifically tailored for {product}.
+        Additional Information:
+        Target Audience: {additional_info.get('target_audience', 'Not specified')}
+        Marketing Goals: {additional_info.get('marketing_goals', 'Not specified')}
+        Budget: {additional_info.get('budget', 'Not specified')}
+
+        Provide a cohesive plan that incorporates insights from all agents, specifically tailored for {product},
+        taking into account the additional information provided.
         """
         return self.marketing_agent.call_openrouter_api(prompt)
 
@@ -139,8 +145,19 @@ def main():
     api_key = check_api_key()
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
+    
     product = input("Enter the product for the marketing plan (e.g., jet flame lighter or turbo handheld fans): ")
-    team.discuss_marketing_plan(product)
+    target_audience = input("Enter the target audience (optional, press Enter to skip): ")
+    marketing_goals = input("Enter specific marketing goals (optional, press Enter to skip): ")
+    budget = input("Enter the marketing budget (optional, press Enter to skip): ")
+    
+    additional_info = {
+        "target_audience": target_audience,
+        "marketing_goals": marketing_goals,
+        "budget": budget
+    }
+    
+    team.discuss_marketing_plan(product, additional_info)
 
 if __name__ == "__main__":
     main()
