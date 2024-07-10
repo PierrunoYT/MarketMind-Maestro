@@ -79,48 +79,50 @@ class MarketingTeam:
 
         content = []
 
+        product = "jetflame lighters"
+
         # Marketing Agent's input
         print(f"{Fore.RED}Marketing Agent thinking...", end='', flush=True)
-        marketing_input = self.marketing_agent.generate_campaign_idea()
+        marketing_input = self.marketing_agent.generate_campaign_idea(product)
         print(f"\r{Fore.RED}Marketing Agent: {marketing_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
 
         # Sales Agent's input
         print(f"{Fore.GREEN}Sales Agent thinking...", end='', flush=True)
-        sales_input = self.sales_agent.generate_sales_pitch("the proposed marketing campaign")
+        sales_input = self.sales_agent.generate_sales_pitch(product)
         print(f"\r{Fore.GREEN}Sales Agent: {sales_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Sales Pitch", "content": sales_input})
 
         # Strategy Agent's input
         print(f"{Fore.YELLOW}Strategy Agent thinking...", end='', flush=True)
-        strategy_input = self.strategy_agent.analyze_market_trends()
+        strategy_input = self.strategy_agent.analyze_market_trends(product)
         print(f"\r{Fore.YELLOW}Strategy Agent: {strategy_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
 
         # Analytics Agent's input
         print(f"{Fore.MAGENTA}Analytics Agent thinking...", end='', flush=True)
-        analytics_input = self.analytics_agent.suggest_target_audience()
+        analytics_input = self.analytics_agent.suggest_target_audience(product)
         print(f"\r{Fore.MAGENTA}Analytics Agent: {analytics_input}{Style.RESET_ALL}\n", flush=True)
         content.append({"title": "Target Audience Suggestion", "content": analytics_input})
 
         # Final plan synthesis
         print(f"{Fore.BLUE}Synthesizing final plan...", end='', flush=True)
-        final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input)
+        final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input, product)
         print(f"\r{Fore.BLUE}Final Marketing Plan:\n{final_plan}{Style.RESET_ALL}", flush=True)
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
         # Create styled Word document
         create_styled_document(content)
 
-    def synthesize_plan(self, marketing, sales, strategy, analytics):
+    def synthesize_plan(self, marketing, sales, strategy, analytics, product):
         prompt = f"""
-        Synthesize a comprehensive marketing plan based on the following inputs:
+        Synthesize a comprehensive marketing plan for {product} based on the following inputs:
         Marketing: {marketing}
         Sales: {sales}
         Strategy: {strategy}
         Analytics: {analytics}
 
-        Provide a cohesive plan that incorporates insights from all agents.
+        Provide a cohesive plan that incorporates insights from all agents, specifically tailored for {product}.
         """
         return self.marketing_agent.call_openrouter_api(prompt)
 

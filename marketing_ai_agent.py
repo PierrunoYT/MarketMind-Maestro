@@ -13,9 +13,9 @@ class MarketingAIAgent:
             "SEO Optimization": ["On-page SEO", "Off-page SEO", "Technical SEO", "Local SEO"]
         }
     
-    def generate_campaign_idea(self, strategy=None):
+    def generate_campaign_idea(self, product, strategy=None):
         """Generate a detailed marketing campaign idea."""
-        prompt = f"Generate a detailed marketing campaign idea for {strategy if strategy else 'any marketing strategy'}. Include specific tactics and channels."
+        prompt = f"Generate a detailed marketing campaign idea for {product} using {strategy if strategy else 'any marketing strategy'}. Include specific tactics and channels."
         return self.call_openrouter_api(prompt)
     
     def analyze_competitors(self, competitors):

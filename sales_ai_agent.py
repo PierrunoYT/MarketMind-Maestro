@@ -22,7 +22,7 @@ class SalesAIAgent:
 
     def generate_sales_pitch(self, product):
         """Generate a sales pitch for a given product."""
-        prompt = f"Generate a compelling sales pitch for the following product: {product}. Include key benefits and a call to action."
+        prompt = f"Generate a compelling sales pitch for jetflame lighters. Include key benefits, unique selling points, and a strong call to action."
         return self.call_openrouter_api(prompt)
 
     def handle_objection(self, objection_type):

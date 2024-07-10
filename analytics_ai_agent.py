@@ -13,9 +13,9 @@ class AnalyticsAIAgent:
             "Tech Enthusiasts": {"age": "Various", "interests": ["Gadgets", "Innovation", "Early adoption"]}
         }
 
-    def suggest_target_audience(self):
+    def suggest_target_audience(self, product):
         """Suggest a target audience with detailed information."""
-        prompt = "Suggest a target audience for a marketing campaign. Include age range, key interests, and any other relevant demographic information."
+        prompt = f"Suggest a target audience for a marketing campaign for {product}. Include age range, key interests, and any other relevant demographic information that would be particularly interested in {product}."
         return self.call_openrouter_api(prompt)
 
     def perform_sentiment_analysis(self, text):
