@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 
 class MarketingAIAgent:
     def __init__(self):
