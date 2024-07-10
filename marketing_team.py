@@ -74,12 +74,10 @@ class MarketingTeam:
         self.strategy_agent = StrategyAIAgent()
         self.analytics_agent = AnalyticsAIAgent()
 
-    def discuss_marketing_plan(self, prompt):
-        print(f"{Fore.CYAN}Marketing Team discussing: {prompt}{Style.RESET_ALL}\n", flush=True)
+    def discuss_marketing_plan(self, product):
+        print(f"{Fore.CYAN}Marketing Team discussing: {product}{Style.RESET_ALL}\n", flush=True)
 
         content = []
-
-        product = prompt
 
         # Marketing Agent's input
         print(f"{Fore.RED}Marketing Agent thinking...", end='', flush=True)
@@ -130,8 +128,8 @@ def main():
     api_key = check_api_key()
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
-    prompt = input("Enter your marketing prompt: ")
-    team.discuss_marketing_plan(prompt)
+    product = input("Enter the product for the marketing plan (e.g., jet flame lighter or turbo handheld fans): ")
+    team.discuss_marketing_plan(product)
 
 if __name__ == "__main__":
     main()
