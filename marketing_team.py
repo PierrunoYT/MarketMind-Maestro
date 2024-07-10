@@ -4,9 +4,38 @@ from marketing_ai_agent import MarketingAIAgent
 from sales_ai_agent import SalesAIAgent
 from strategy_ai_agent import StrategyAIAgent
 from analytics_ai_agent import AnalyticsAIAgent
+from docx import Document
+from docx.shared import Pt
+from docx.enum.style import WD_STYLE_TYPE
 
 # Load environment variables
 load_dotenv()
+
+def create_styled_document(content):
+    doc = Document()
+    
+    # Create and apply styles
+    title_style = doc.styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
+    title_style.font.size = Pt(18)
+    title_style.font.bold = True
+    
+    heading_style = doc.styles.add_style('Heading', WD_STYLE_TYPE.PARAGRAPH)
+    heading_style.font.size = Pt(14)
+    heading_style.font.bold = True
+    
+    body_style = doc.styles.add_style('Body', WD_STYLE_TYPE.PARAGRAPH)
+    body_style.font.size = Pt(11)
+    
+    # Add content to the document
+    doc.add_paragraph("Marketing Team Discussion", style='Title')
+    
+    for section in content:
+        doc.add_paragraph(section['title'], style='Heading')
+        doc.add_paragraph(section['content'], style='Body')
+    
+    # Save the document
+    doc.save('marketing_plan.docx')
+    print("Marketing plan saved as 'marketing_plan.docx'")
 
 def check_api_key():
     api_key = os.getenv("OPENROUTER_API_KEY")
@@ -33,25 +62,35 @@ class MarketingTeam:
     def discuss_marketing_plan(self, question):
         print(f"Marketing Team discussing: {question}\n")
 
+        content = []
+
         # Marketing Agent's input
         marketing_input = self.marketing_agent.generate_campaign_idea()
         print(f"Marketing Agent: {marketing_input}\n")
+        content.append({"title": "Marketing Campaign Idea", "content": marketing_input})
 
         # Sales Agent's input
         sales_input = self.sales_agent.generate_sales_pitch("the proposed marketing campaign")
         print(f"Sales Agent: {sales_input}\n")
+        content.append({"title": "Sales Pitch", "content": sales_input})
 
         # Strategy Agent's input
         strategy_input = self.strategy_agent.analyze_market_trends()
         print(f"Strategy Agent: {strategy_input}\n")
+        content.append({"title": "Market Trends Analysis", "content": strategy_input})
 
         # Analytics Agent's input
         analytics_input = self.analytics_agent.suggest_target_audience()
         print(f"Analytics Agent: {analytics_input}\n")
+        content.append({"title": "Target Audience Suggestion", "content": analytics_input})
 
         # Final plan synthesis
         final_plan = self.synthesize_plan(marketing_input, sales_input, strategy_input, analytics_input)
         print(f"Final Marketing Plan:\n{final_plan}")
+        content.append({"title": "Final Marketing Plan", "content": final_plan})
+
+        # Create styled Word document
+        create_styled_document(content)
 
     def synthesize_plan(self, marketing, sales, strategy, analytics):
         prompt = f"""
