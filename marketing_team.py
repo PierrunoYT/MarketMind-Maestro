@@ -15,16 +15,25 @@ def create_styled_document(content):
     doc = Document()
     
     # Create and apply styles
-    title_style = doc.styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
-    title_style.font.size = Pt(18)
-    title_style.font.bold = True
+    if 'Title' not in doc.styles:
+        title_style = doc.styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
+        title_style.font.size = Pt(18)
+        title_style.font.bold = True
+    else:
+        title_style = doc.styles['Title']
     
-    heading_style = doc.styles.add_style('Heading', WD_STYLE_TYPE.PARAGRAPH)
-    heading_style.font.size = Pt(14)
-    heading_style.font.bold = True
+    if 'Heading' not in doc.styles:
+        heading_style = doc.styles.add_style('Heading', WD_STYLE_TYPE.PARAGRAPH)
+        heading_style.font.size = Pt(14)
+        heading_style.font.bold = True
+    else:
+        heading_style = doc.styles['Heading']
     
-    body_style = doc.styles.add_style('Body', WD_STYLE_TYPE.PARAGRAPH)
-    body_style.font.size = Pt(11)
+    if 'Body' not in doc.styles:
+        body_style = doc.styles.add_style('Body', WD_STYLE_TYPE.PARAGRAPH)
+        body_style.font.size = Pt(11)
+    else:
+        body_style = doc.styles['Body']
     
     # Add content to the document
     doc.add_paragraph("Marketing Team Discussion", style='Title')
