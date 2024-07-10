@@ -1,15 +1,22 @@
-# Advanced Marketing AI Agent
+# Advanced Marketing and Sales AI Agents
 
-This project implements an advanced Marketing AI Agent using OpenRouter's Anthropic Claude-3.5-sonnet model. The agent provides various marketing-related functionalities to assist in campaign planning, market analysis, and strategic decision-making.
+This project implements advanced Marketing and Sales AI Agents using OpenRouter's Anthropic Claude-3.5-sonnet model. The agents provide various marketing and sales-related functionalities to assist in campaign planning, market analysis, sales strategies, and strategic decision-making.
 
 ## Features
 
+### Marketing AI Agent
 - Generate detailed marketing campaign ideas
 - Analyze current market trends
 - Suggest target audiences for campaigns
 - Perform sentiment analysis on text
 - Conduct competitor analysis
 - Suggest budget allocation for marketing channels
+
+### Sales AI Agent
+- Generate compelling sales pitches
+- Handle various types of sales objections
+- Suggest follow-up strategies
+- Analyze sales performance data
 
 ## Requirements
 
@@ -31,19 +38,20 @@ This project implements an advanced Marketing AI Agent using OpenRouter's Anthro
 
 ## Usage
 
-Run the main script to see a demonstration of the Marketing AI Agent's capabilities:
+Run the main scripts to see demonstrations of the AI Agents' capabilities:
 
 ```
 python marketing_ai_agent.py
+python sales_ai_agent.py
 ```
 
 ## Customization
 
-You can easily extend the `MarketingAIAgent` class to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
+You can easily extend the `MarketingAIAgent` and `SalesAIAgent` classes to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
 
 ## Note
 
-Ensure you have a valid OpenRouter API key and sufficient credits to make API calls. The script will display an error message if the API key is not set or if there are issues with the API call.
+Ensure you have a valid OpenRouter API key and sufficient credits to make API calls. The scripts will display an error message if the API key is not set or if there are issues with the API call.
 
 ## License
 
