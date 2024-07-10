@@ -1,8 +1,12 @@
-# Advanced Marketing and Sales AI Agents
+# Advanced Marketing and Sales AI Team
 
-This project implements advanced Marketing and Sales AI Agents using OpenRouter's Anthropic Claude-3.5-sonnet model. The agents provide various marketing and sales-related functionalities to assist in campaign planning, market analysis, sales strategies, and strategic decision-making.
+This project implements an advanced Marketing and Sales AI Team using OpenRouter's Anthropic Claude-3.5-sonnet model. The team consists of multiple AI agents that collaborate to create comprehensive marketing plans based on user input.
 
 ## Features
+
+### Marketing Team
+- Coordinate discussions between multiple AI agents
+- Generate comprehensive marketing plans based on input from all agents
 
 ### Marketing AI Agent
 - Generate detailed marketing campaign ideas
@@ -17,6 +21,10 @@ This project implements advanced Marketing and Sales AI Agents using OpenRouter'
 - Handle various types of sales objections
 - Suggest follow-up strategies
 - Analyze sales performance data
+
+### Strategy and Analytics Agents
+- Provide strategic insights and market analysis
+- Offer data-driven recommendations for marketing campaigns
 
 ## Requirements
 
@@ -38,16 +46,17 @@ This project implements advanced Marketing and Sales AI Agents using OpenRouter'
 
 ## Usage
 
-Run the main scripts to see demonstrations of the AI Agents' capabilities:
+Run the main script to interact with the Marketing AI Team:
 
 ```
-python marketing_ai_agent.py
-python sales_ai_agent.py
+python marketing_team.py
 ```
+
+Enter your marketing-related question when prompted, and the AI team will collaborate to create a comprehensive marketing plan.
 
 ## Customization
 
-You can easily extend the `MarketingAIAgent` and `SalesAIAgent` classes to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
+You can easily extend the `MarketingAIAgent`, `SalesAIAgent`, and `MarketingTeam` classes to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
 
 ## Note
 

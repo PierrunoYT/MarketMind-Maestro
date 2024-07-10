@@ -84,27 +84,9 @@ class MarketingAIAgent:
         else:
             return f"Error: {response.status_code}, {response.text}"
 
-def main():
-    agent = MarketingAIAgent()
-    print("Advanced Marketing AI Agent Demo")
-    print("--------------------------------")
-    try:
-        print(agent.generate_campaign_idea())
-        print("\n" + agent.analyze_market_trends())
-        print("\n" + agent.suggest_target_audience())
-        
-        print("\nSentiment Analysis:")
-        print(agent.perform_sentiment_analysis("This product is amazing and fantastic!"))
-        
-        print("\nCompetitor Analysis:")
-        competitors = ["CompanyA", "CompanyB"]
-        print(agent.analyze_competitors(competitors))
-        
-        print("\nBudget Allocation:")
-        print(agent.suggest_budget_allocation(10000))
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        print("Please make sure you have set the OPENROUTER_API_KEY environment variable.")
+    def respond_to_agent(self, message):
+        """Respond to messages from other agents."""
+        prompt = f"As a marketing AI agent, respond to the following message from another agent: {message}"
+        return self.call_openrouter_api(prompt)
 
-if __name__ == "__main__":
-    main()
+# Note: main() function removed as it's no longer needed in this file

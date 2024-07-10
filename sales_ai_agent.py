@@ -56,21 +56,9 @@ class SalesAIAgent:
         else:
             return f"Error: {response.status_code}, {response.text}"
 
-def main():
-    agent = SalesAIAgent()
-    print("Sales AI Agent Demo")
-    print("------------------")
-    try:
-        print(agent.generate_sales_pitch("Smart Home Security System"))
-        print("\nHandling Objection:")
-        print(agent.handle_objection("Price"))
-        print("\nSuggesting Follow-up:")
-        print(agent.suggest_follow_up("Customer showed interest but didn't commit to a purchase"))
-        print("\nAnalyzing Sales Performance:")
-        print(agent.analyze_sales_performance("Q1 sales were up 15%, but Q2 saw a 5% decline"))
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        print("Please make sure you have set the OPENROUTER_API_KEY environment variable.")
+    def respond_to_agent(self, message):
+        """Respond to messages from other agents."""
+        prompt = f"As a sales AI agent, respond to the following message from another agent: {message}"
+        return self.call_openrouter_api(prompt)
 
-if __name__ == "__main__":
-    main()
+# Note: main() function removed as it's no longer needed in this file
