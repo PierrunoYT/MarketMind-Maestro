@@ -10,17 +10,18 @@ load_dotenv()
 
 def check_api_key():
     api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        print("OpenRouter API key not found in .env file.")
+    while not api_key:
+        print("OpenRouter API key not found.")
         new_key = input("Please enter your OpenRouter API key: ").strip()
         if new_key:
             with open(".env", "a") as env_file:
                 env_file.write(f"\nOPENROUTER_API_KEY={new_key}")
             print("API key has been added to .env file.")
             os.environ["OPENROUTER_API_KEY"] = new_key
+            api_key = new_key
         else:
-            print("No API key provided. Exiting.")
-            exit(1)
+            print("No API key provided. Please try again.")
+    return api_key
 
 class MarketingTeam:
     def __init__(self):
@@ -65,7 +66,8 @@ class MarketingTeam:
         return self.marketing_agent.call_openrouter_api(prompt)
 
 def main():
-    check_api_key()
+    api_key = check_api_key()
+    os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
     question = input("Enter your marketing question: ")
     team.discuss_marketing_plan(question)
