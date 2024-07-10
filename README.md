@@ -29,7 +29,6 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 ## Requirements
 
 - Python 3.6+
-- `requests` library
 - OpenRouter API key
 
 ## Setup
@@ -37,11 +36,11 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 1. Clone this repository
 2. Install the required packages:
    ```
-   pip install requests
+   pip install -r requirements.txt
    ```
-3. Set up your OpenRouter API key as an environment variable:
+3. Create a `.env` file in the project root directory and add your OpenRouter API key:
    ```
-   export OPENROUTER_API_KEY=your_api_key_here
+   OPENROUTER_API_KEY=your_api_key_here
    ```
 
 ## Usage
