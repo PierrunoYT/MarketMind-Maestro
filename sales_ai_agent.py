@@ -21,9 +21,11 @@ class SalesAIAgent:
             "Time"
         ]
 
-    def generate_sales_pitch(self, product):
+    def generate_sales_pitch(self, product, additional_info=None):
         """Generate a sales pitch for a given product."""
-        prompt = f"Generate a compelling sales pitch for jetflame lighters. Include key benefits, unique selling points, and a strong call to action."
+        prompt = f"Generate a compelling sales pitch for {product}. Include key benefits, unique selling points, and a strong call to action."
+        if additional_info:
+            prompt += f" Consider the following additional information: Target Audience: {additional_info.get('target_audience', 'Not specified')}, Marketing Goals: {additional_info.get('marketing_goals', 'Not specified')}, Budget: {additional_info.get('budget', 'Not specified')}"
         return self.call_openrouter_api(prompt)
 
     def handle_objection(self, objection_type):
