@@ -15,9 +15,17 @@ class StrategyAIAgent:
             "Sustainability": "Eco-friendly practices and messaging in marketing campaigns"
         }
 
-    def analyze_market_trends(self, product):
+    def analyze_market_trends(self, product, additional_info=None):
         """Provide detailed market trend analysis."""
-        prompt = f"Analyze current market trends related to {product}. Provide detailed descriptions of at least 3 significant trends that could impact the marketing and sales of {product}."
+        prompt = f"Conduct a comprehensive market trend analysis for {product}. Your analysis should include:\n"
+        prompt += "1. Identification and detailed description of at least 5 significant trends impacting the industry\n"
+        prompt += "2. Quantitative data supporting each trend (market size, growth rates, adoption rates, etc.)\n"
+        prompt += "3. Analysis of how each trend specifically impacts the marketing and sales of {product}\n"
+        prompt += "4. Potential opportunities and threats arising from these trends\n"
+        prompt += "5. Recommendations for leveraging positive trends and mitigating risks from negative ones\n"
+        prompt += "6. Short-term (6-12 months) and long-term (2-5 years) projections for each trend\n"
+        if additional_info:
+            prompt += f"\nConsider the following additional context in your analysis:\n{additional_info}"
         return self.call_openrouter_api(prompt)
 
     def call_openrouter_api(self, prompt):

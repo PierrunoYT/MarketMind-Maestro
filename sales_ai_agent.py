@@ -23,9 +23,19 @@ class SalesAIAgent:
 
     def generate_sales_pitch(self, product, additional_info=None):
         """Generate a sales pitch for a given product."""
-        prompt = f"Generate a compelling sales pitch for {product}. Include key benefits, unique selling points, and a strong call to action."
+        prompt = f"Create a highly persuasive and tailored sales pitch for {product}. Your pitch should include:\n"
+        prompt += "1. A compelling opening hook\n"
+        prompt += "2. Clear articulation of the product's unique value proposition\n"
+        prompt += "3. At least three key benefits, with specific examples or data points\n"
+        prompt += "4. Anticipation and preemptive addressing of potential objections\n"
+        prompt += "5. A strong, action-oriented close with a clear next step\n"
+        prompt += "6. Incorporate storytelling elements to make the pitch more engaging and memorable\n"
         if additional_info:
-            prompt += f" Consider the following additional information: Target Audience: {additional_info.get('target_audience', 'Not specified')}, Marketing Goals: {additional_info.get('marketing_goals', 'Not specified')}, Budget: {additional_info.get('budget', 'Not specified')}"
+            prompt += f"\nConsider the following additional information:\n"
+            prompt += f"Target Audience: {additional_info.get('target_audience', 'Not specified')}\n"
+            prompt += f"Marketing Goals: {additional_info.get('marketing_goals', 'Not specified')}\n"
+            prompt += f"Budget: {additional_info.get('budget', 'Not specified')}\n"
+        prompt += "\nEnsure the pitch is adaptable for various communication channels (in-person, phone, email, video call)."
         return self.call_openrouter_api(prompt)
 
     def handle_objection(self, objection_type):

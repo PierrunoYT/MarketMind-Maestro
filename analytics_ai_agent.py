@@ -14,9 +14,21 @@ class AnalyticsAIAgent:
             "Tech Enthusiasts": {"age": "Various", "interests": ["Gadgets", "Innovation", "Early adoption"]}
         }
 
-    def analyze_target_audience(self, product):
+    def analyze_target_audience(self, product, additional_info=None):
         """Analyze the target audience for a given product."""
-        prompt = f"Perform a comprehensive target audience analysis for {product}. Include demographic information (age, gender, income, education), psychographic details (interests, values, lifestyle), behavioral patterns, and any other relevant characteristics. Explain why this audience is suitable for {product} and how to effectively reach and engage them."
+        prompt = f"Conduct an in-depth target audience analysis for {product}. Your analysis should include:\n"
+        prompt += "1. Detailed demographic profile (age, gender, income, education, occupation, location)\n"
+        prompt += "2. Psychographic characteristics (interests, values, lifestyle, personality traits)\n"
+        prompt += "3. Behavioral patterns (purchasing habits, brand loyalties, media consumption)\n"
+        prompt += "4. Pain points and challenges the audience faces that {product} can address\n"
+        prompt += "5. Decision-making process and factors influencing their choices\n"
+        prompt += "6. Segmentation of the audience into distinct buyer personas\n"
+        prompt += "7. Channels and platforms where this audience can be effectively reached\n"
+        prompt += "8. Tailored messaging strategies for each segment\n"
+        prompt += "9. Potential objections or resistance points from this audience\n"
+        prompt += "10. Opportunities for audience expansion or market penetration\n"
+        if additional_info:
+            prompt += f"\nConsider the following additional context in your analysis:\n{additional_info}"
         return self.call_openrouter_api(prompt)
 
     def perform_sentiment_analysis(self, text):
