@@ -1,8 +1,13 @@
 import random
 from collections import defaultdict
+import requests
+import os
+import json
 
 class MarketingAIAgent:
     def __init__(self):
+        self.api_key = os.environ.get("OPENROUTER_API_KEY")
+        self.base_url = "https://openrouter.ai/api/v1/chat/completions"
         self.strategies = {
             "Social Media Marketing": ["Facebook", "Instagram", "Twitter", "LinkedIn", "TikTok"],
             "Content Marketing": ["Blog posts", "Whitepapers", "Infographics", "Videos", "Podcasts"],
@@ -28,45 +33,28 @@ class MarketingAIAgent:
     
     def generate_campaign_idea(self, strategy=None):
         """Generate a detailed marketing campaign idea."""
-        if not strategy:
-            strategy = random.choice(list(self.strategies.keys()))
-        tactic = random.choice(self.strategies[strategy])
-        return f"Campaign Idea: {strategy} focusing on {tactic}"
+        prompt = f"Generate a detailed marketing campaign idea for {strategy if strategy else 'any marketing strategy'}. Include specific tactics and channels."
+        return self.call_openrouter_api(prompt)
     
     def analyze_market_trends(self):
         """Provide detailed market trend analysis."""
-        trend, description = random.choice(list(self.market_trends.items()))
-        return f"Current Trend: {trend}\nDescription: {description}"
+        prompt = "Analyze current market trends in digital marketing. Provide detailed descriptions of at least 3 significant trends."
+        return self.call_openrouter_api(prompt)
     
     def suggest_target_audience(self):
         """Suggest a target audience with detailed information."""
-        audience, details = random.choice(list(self.audiences.items()))
-        return f"Target Audience: {audience}\nAge Range: {details['age']}\nKey Interests: {', '.join(details['interests'])}"
+        prompt = "Suggest a target audience for a marketing campaign. Include age range, key interests, and any other relevant demographic information."
+        return self.call_openrouter_api(prompt)
     
     def perform_sentiment_analysis(self, text):
-        """Perform basic sentiment analysis on given text."""
-        positive_words = set(['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic'])
-        negative_words = set(['bad', 'poor', 'terrible', 'awful', 'horrible', 'disappointing'])
-        
-        words = text.lower().split()
-        positive_count = sum(word in positive_words for word in words)
-        negative_count = sum(word in negative_words for word in words)
-        
-        if positive_count > negative_count:
-            return "Positive"
-        elif negative_count > positive_count:
-            return "Negative"
-        else:
-            return "Neutral"
+        """Perform sentiment analysis on given text."""
+        prompt = f"Perform a detailed sentiment analysis on the following text. Classify it as positive, negative, or neutral, and explain why: '{text}'"
+        return self.call_openrouter_api(prompt)
     
     def analyze_competitors(self, competitors):
-        """Perform a basic competitor analysis."""
-        analysis = defaultdict(list)
-        for competitor in competitors:
-            strength = random.choice(["Strong brand presence", "Innovative products", "Competitive pricing", "Excellent customer service"])
-            weakness = random.choice(["Limited market reach", "Outdated technology", "Poor customer reviews", "Lack of product diversity"])
-            analysis[competitor] = [f"Strength: {strength}", f"Weakness: {weakness}"]
-        return dict(analysis)
+        """Perform a competitor analysis."""
+        prompt = f"Perform a detailed competitor analysis for the following companies: {', '.join(competitors)}. For each competitor, provide strengths, weaknesses, and potential strategies to compete against them."
+        return self.call_openrouter_api(prompt)
     
     def suggest_budget_allocation(self, total_budget):
         """Suggest budget allocation for different marketing channels."""
@@ -80,23 +68,43 @@ class MarketingAIAgent:
         allocation[channels[-1]] = round(remaining_budget, 2)
         return allocation
 
+    def call_openrouter_api(self, prompt):
+        """Make an API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "model": "anthropic/claude-3-sonnet-20240229",
+            "messages": [{"role": "user", "content": prompt}]
+        }
+        response = requests.post(self.base_url, headers=headers, json=data)
+        if response.status_code == 200:
+            return response.json()['choices'][0]['message']['content']
+        else:
+            return f"Error: {response.status_code}, {response.text}"
+
 def main():
     agent = MarketingAIAgent()
     print("Advanced Marketing AI Agent Demo")
     print("--------------------------------")
-    print(agent.generate_campaign_idea())
-    print("\n" + agent.analyze_market_trends())
-    print("\n" + agent.suggest_target_audience())
-    
-    print("\nSentiment Analysis:")
-    print(agent.perform_sentiment_analysis("This product is amazing and fantastic!"))
-    
-    print("\nCompetitor Analysis:")
-    competitors = ["CompanyA", "CompanyB"]
-    print(agent.analyze_competitors(competitors))
-    
-    print("\nBudget Allocation:")
-    print(agent.suggest_budget_allocation(10000))
+    try:
+        print(agent.generate_campaign_idea())
+        print("\n" + agent.analyze_market_trends())
+        print("\n" + agent.suggest_target_audience())
+        
+        print("\nSentiment Analysis:")
+        print(agent.perform_sentiment_analysis("This product is amazing and fantastic!"))
+        
+        print("\nCompetitor Analysis:")
+        competitors = ["CompanyA", "CompanyB"]
+        print(agent.analyze_competitors(competitors))
+        
+        print("\nBudget Allocation:")
+        print(agent.suggest_budget_allocation(10000))
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        print("Please make sure you have set the OPENROUTER_API_KEY environment variable.")
 
 if __name__ == "__main__":
     main()
