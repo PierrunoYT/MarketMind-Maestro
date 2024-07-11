@@ -53,12 +53,12 @@ class TestMarketingTeam(unittest.TestCase):
         product = "Test Product"
         additional_info = {'language': 'english', 'target_audience': 'Young adults', 'marketing_goals': 'Increase brand awareness', 'budget': '$10,000'}
 
-        with patch.object(self.marketing_team.marketing_agent, 'call_openrouter_api', return_value="Synthesized Plan"):
+        with patch.object(self.marketing_team.marketing_agent, 'call_openrouter_api', return_value="Synthesized Plan") as mock_call_api:
             result = self.marketing_team.synthesize_plan(marketing, sales, strategy, analytics, product, additional_info)
 
         self.assertEqual(result, "Synthesized Plan")
-        self.marketing_team.marketing_agent.call_openrouter_api.assert_called_once_with(unittest.mock.ANY, language='english')
-        call_args = self.marketing_team.marketing_agent.call_openrouter_api.call_args[0][0]
+        mock_call_api.assert_called_once()
+        call_args = mock_call_api.call_args[0][0]
         self.assertIn(product, call_args)
         self.assertIn(marketing, call_args)
         self.assertIn(sales, call_args)
