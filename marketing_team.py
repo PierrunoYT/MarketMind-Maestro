@@ -164,15 +164,12 @@ def main():
     team = MarketingTeam()
     
     print("Please provide general details for your marketing plan:")
-    details = input("Enter product name and any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.), separated by semicolons:\n")
+    product = input("Enter product name: ").strip()
+    additional_info = input("Enter any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.): ").strip()
     
-    details_list = details.split(';')
-    if len(details_list) < 2:
-        print("Error: Please provide at least the product name and some additional information. Please try again.")
+    if not product or not additional_info:
+        print("Error: Please provide both the product name and additional information. Please try again.")
         return
-    
-    product = details_list[0].strip()
-    additional_info = "; ".join(details_list[1:]).strip()
     
     language = input("Enter preferred language (english/german): ").strip().lower()
     
