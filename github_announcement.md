@@ -20,10 +20,11 @@ I'm excited to announce the release of **MarketMind Maestro**, an advanced AI-po
 
 ## 🔧 Getting Started
 
-1. Clone the repository: `git clone https://github.com/yourusername/marketmind-maestro.git`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Set up your OpenRouter API key in a `.env` file
-4. Run the main script: `python marketing_team.py`
+1. Clone the repository: `git clone https://github.com/PierrunoYT/MarketMind-Maestro.git`
+2. Navigate to the project directory: `cd MarketMind-Maestro`
+3. Install dependencies: `pip install -r requirements.txt`
+4. Set up your OpenRouter API key in a `.env` file
+5. Run the main script: `python marketing_team.py`
 
 ## 🤝 Contributions
 
@@ -35,9 +36,9 @@ This project is open-source and available under the MIT License.
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/yourusername/marketmind-maestro)
-- [Issue Tracker](https://github.com/yourusername/marketmind-maestro/issues)
-- [Documentation](https://github.com/yourusername/marketmind-maestro/wiki)
+- [GitHub Repository](https://github.com/PierrunoYT/MarketMind-Maestro)
+- [Issue Tracker](https://github.com/PierrunoYT/MarketMind-Maestro/issues)
+- [Documentation](https://github.com/PierrunoYT/MarketMind-Maestro/wiki)
 
 We're excited to see how you'll use MarketMind Maestro to revolutionize your marketing strategies. Give it a try and let us know what you think!
 

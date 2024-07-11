@@ -47,12 +47,19 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 
 ## Setup
 
-1. Clone this repository
-2. Create a virtual environment:
+1. Clone this repository:
+   ```
+   git clone https://github.com/PierrunoYT/MarketMind-Maestro.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd MarketMind-Maestro
+   ```
+3. Create a virtual environment:
    ```
    python -m venv venv
    ```
-3. Activate the virtual environment:
+4. Activate the virtual environment:
    - On Windows:
      ```
      venv\Scripts\activate
@@ -61,11 +68,11 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
      ```
      source venv/bin/activate
      ```
-4. Install the required packages:
+5. Install the required packages:
    ```
    pip install -r requirements.txt
    ```
-5. Create a `.env` file in the project root directory and add your OpenRouter API key:
+6. Create a `.env` file in the project root directory and add your OpenRouter API key:
    ```
    OPENROUTER_API_KEY=your_api_key_here
    ```
@@ -99,3 +106,9 @@ Ensure you have a valid OpenRouter API key and sufficient credits to make API ca
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+## Links
+
+- [GitHub Repository](https://github.com/PierrunoYT/MarketMind-Maestro)
+- [Issue Tracker](https://github.com/PierrunoYT/MarketMind-Maestro/issues)
+- [Documentation](https://github.com/PierrunoYT/MarketMind-Maestro/wiki)
