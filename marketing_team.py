@@ -134,7 +134,7 @@ class MarketingTeam:
 
             # Marketing Agent's final input based on all feedback
             loading_indicator("Marketing Agent (Final)")
-            final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}")
+            final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info={'input': f"{sales_input}\n{strategy_input}\n{analytics_input}", 'language': language})
             logging.debug(f"Final Marketing Agent response: {final_marketing_input}")
             content.append({"title": "Final Marketing Campaign Idea", "content": final_marketing_input})
             print(f"{Fore.RED}Marketing Agent (Final): {final_marketing_input}{Style.RESET_ALL}\n", flush=True)

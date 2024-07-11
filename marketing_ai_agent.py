@@ -16,15 +16,21 @@ class MarketingAIAgent:
     
     def generate_campaign_idea(self, product, strategy=None, additional_info=None):
         """Generate a detailed marketing campaign idea."""
-        language = additional_info.get('language', 'english') if additional_info else 'english'
+        language = 'english'
+        if isinstance(additional_info, dict):
+            language = additional_info.get('language', 'english')
+            additional_context = additional_info.get('input', '')
+        else:
+            additional_context = additional_info or ''
+
         prompt = f"Generate a comprehensive, innovative marketing campaign idea for {product} using {strategy if strategy else 'the most suitable marketing strategy'}. Include specific tactics, channels, and a timeline for implementation. Consider the following aspects:\n"
         prompt += "1. Unique selling points of the product\n"
         prompt += "2. Target audience demographics and psychographics\n"
         prompt += "3. Competitive landscape\n"
         prompt += "4. Budget considerations\n"
         prompt += "5. Measurable KPIs for campaign success\n"
-        if additional_info:
-            prompt += f"\nAdditional context: {additional_info}"
+        if additional_context:
+            prompt += f"\nAdditional context: {additional_context}"
         return self.call_openrouter_api(prompt, language)
     
     def analyze_competitors(self, competitors):
