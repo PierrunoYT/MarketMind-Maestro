@@ -1,4 +1,4 @@
-# Advanced Marketing and Sales AI Team
+# MarketMind Maestro: Advanced Marketing and Sales AI Team
 
 This project implements an advanced Marketing and Sales AI Team using OpenRouter's Anthropic Claude-3.5-sonnet model. The team consists of multiple AI agents that collaborate to create comprehensive marketing plans based on user input.
 
