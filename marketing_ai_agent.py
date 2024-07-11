@@ -14,8 +14,9 @@ class MarketingAIAgent:
             "SEO Optimization": ["On-page SEO", "Off-page SEO", "Technical SEO", "Local SEO"]
         }
     
-    def generate_campaign_idea(self, product, strategy=None, additional_info=None, language='english'):
+    def generate_campaign_idea(self, product, strategy=None, additional_info=None):
         """Generate a detailed marketing campaign idea."""
+        language = additional_info.get('language', 'english') if additional_info else 'english'
         prompt = f"Generate a comprehensive, innovative marketing campaign idea for {product} using {strategy if strategy else 'the most suitable marketing strategy'}. Include specific tactics, channels, and a timeline for implementation. Consider the following aspects:\n"
         prompt += "1. Unique selling points of the product\n"
         prompt += "2. Target audience demographics and psychographics\n"
