@@ -25,7 +25,8 @@ class TestMarketingTeam(unittest.TestCase):
         self.marketing_team.discuss_marketing_plan(product, additional_info)
 
         # Assert that all methods were called with correct arguments
-        self.marketing_team.marketing_agent.generate_campaign_idea.assert_called_with(product, additional_info=additional_info)
+        self.marketing_team.marketing_agent.generate_campaign_idea.assert_any_call(product, additional_info=additional_info)
+        self.marketing_team.marketing_agent.generate_campaign_idea.assert_any_call(product, additional_info="Sales Feedback\nMarket Trends Analysis\nTarget Audience Analysis")
         self.marketing_team.sales_agent.respond_to_agent.assert_called_with("Marketing Campaign Idea", language='english')
         self.marketing_team.strategy_agent.analyze_market_trends.assert_called_with(product, "Marketing Campaign Idea\nSales Feedback", language='english')
         self.marketing_team.analytics_agent.analyze_target_audience.assert_called_with(product, "Marketing Campaign Idea\nSales Feedback\nMarket Trends Analysis", language='english')
@@ -56,7 +57,7 @@ class TestMarketingTeam(unittest.TestCase):
             result = self.marketing_team.synthesize_plan(marketing, sales, strategy, analytics, product, additional_info)
 
         self.assertEqual(result, "Synthesized Plan")
-        self.marketing_team.marketing_agent.call_openrouter_api.assert_called_once()
+        self.marketing_team.marketing_agent.call_openrouter_api.assert_called_once_with(unittest.mock.ANY, language='english')
         call_args = self.marketing_team.marketing_agent.call_openrouter_api.call_args[0][0]
         self.assertIn(product, call_args)
         self.assertIn(marketing, call_args)
