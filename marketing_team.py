@@ -57,7 +57,8 @@ def create_styled_document(content):
     footer_para.text = "Page "
     footer_para.style = doc.styles['Footer']
     footer_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    footer_para.add_run().add_field('PAGE')
+    run = footer_para.add_run()
+    run.add_field('PAGE')
     
     # Save the document
     doc.save('marketing_plan.docx')
