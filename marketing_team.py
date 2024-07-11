@@ -11,9 +11,17 @@ from docx.shared import Pt, RGBColor
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from colorama import init, Fore, Style
+from tqdm import tqdm
+import time
 
 # Initialize colorama
 init(autoreset=True)
+
+def loading_indicator(agent_name):
+    with tqdm(total=100, desc=f"{agent_name} thinking", bar_format="{l_bar}{bar}", colour="green") as pbar:
+        for i in range(100):
+            time.sleep(0.05)
+            pbar.update(1)
 
 # Load environment variables
 load_dotenv()
@@ -95,50 +103,56 @@ class MarketingTeam:
         content = []
         language = additional_info.get('language', 'english')
 
-        # Marketing Agent's initial input
-        print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
-        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info)
-        logging.debug(f"Marketing Agent response: {marketing_input}")
-        content.append({"title": "Initial Marketing Campaign Idea", "content": marketing_input})
-        print(f"{Style.RESET_ALL}\n", flush=True)
+        try:
+            # Marketing Agent's initial input
+            loading_indicator("Marketing Agent")
+            marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info)
+            logging.debug(f"Marketing Agent response: {marketing_input}")
+            content.append({"title": "Initial Marketing Campaign Idea", "content": marketing_input})
+            print(f"{Fore.RED}Marketing Agent: {marketing_input}{Style.RESET_ALL}\n", flush=True)
 
-        # Sales Agent's response to Marketing
-        print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
-        sales_input = self.sales_agent.respond_to_agent(marketing_input, language=language)
-        logging.debug(f"Sales Agent response: {sales_input}")
-        content.append({"title": "Sales Agent Feedback", "content": sales_input})
-        print(f"{Style.RESET_ALL}\n", flush=True)
+            # Sales Agent's response to Marketing
+            loading_indicator("Sales Agent")
+            sales_input = self.sales_agent.respond_to_agent(marketing_input, language=language)
+            logging.debug(f"Sales Agent response: {sales_input}")
+            content.append({"title": "Sales Agent Feedback", "content": sales_input})
+            print(f"{Fore.GREEN}Sales Agent: {sales_input}{Style.RESET_ALL}\n", flush=True)
 
-        # Strategy Agent's input based on Marketing and Sales
-        print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
-        strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language=language)
-        logging.debug(f"Strategy Agent response: {strategy_input}")
-        content.append({"title": "Market Trends Analysis", "content": strategy_input})
-        print(f"{Style.RESET_ALL}\n", flush=True)
+            # Strategy Agent's input based on Marketing and Sales
+            loading_indicator("Strategy Agent")
+            strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language=language)
+            logging.debug(f"Strategy Agent response: {strategy_input}")
+            content.append({"title": "Market Trends Analysis", "content": strategy_input})
+            print(f"{Fore.YELLOW}Strategy Agent: {strategy_input}{Style.RESET_ALL}\n", flush=True)
 
-        # Analytics Agent's input based on all previous inputs
-        print(f"{Fore.MAGENTA}Analytics Agent: ", end='', flush=True)
-        analytics_input = self.analytics_agent.analyze_target_audience(product, f"{marketing_input}\n{sales_input}\n{strategy_input}", language=language)
-        logging.debug(f"Analytics Agent response: {analytics_input}")
-        content.append({"title": "Target Audience Analysis", "content": analytics_input})
-        print(f"{Style.RESET_ALL}\n", flush=True)
+            # Analytics Agent's input based on all previous inputs
+            loading_indicator("Analytics Agent")
+            analytics_input = self.analytics_agent.analyze_target_audience(product, f"{marketing_input}\n{sales_input}\n{strategy_input}", language=language)
+            logging.debug(f"Analytics Agent response: {analytics_input}")
+            content.append({"title": "Target Audience Analysis", "content": analytics_input})
+            print(f"{Fore.MAGENTA}Analytics Agent: {analytics_input}{Style.RESET_ALL}\n", flush=True)
 
-        # Marketing Agent's final input based on all feedback
-        print(f"{Fore.RED}Marketing Agent (Final): ", end='', flush=True)
-        final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}")
-        logging.debug(f"Final Marketing Agent response: {final_marketing_input}")
-        content.append({"title": "Final Marketing Campaign Idea", "content": final_marketing_input})
-        print(f"{Style.RESET_ALL}\n", flush=True)
+            # Marketing Agent's final input based on all feedback
+            loading_indicator("Marketing Agent (Final)")
+            final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}")
+            logging.debug(f"Final Marketing Agent response: {final_marketing_input}")
+            content.append({"title": "Final Marketing Campaign Idea", "content": final_marketing_input})
+            print(f"{Fore.RED}Marketing Agent (Final): {final_marketing_input}{Style.RESET_ALL}\n", flush=True)
 
-        # Final plan synthesis
-        print(f"{Fore.BLUE}Synthesizing final plan...\n", flush=True)
-        final_plan = self.synthesize_plan(final_marketing_input, sales_input, strategy_input, analytics_input, product, additional_info)
-        logging.debug(f"Final plan: {final_plan}")
-        content.append({"title": "Final Marketing Plan", "content": final_plan})
+            # Final plan synthesis
+            loading_indicator("Final Plan Synthesis")
+            final_plan = self.synthesize_plan(final_marketing_input, sales_input, strategy_input, analytics_input, product, additional_info)
+            logging.debug(f"Final plan: {final_plan}")
+            content.append({"title": "Final Marketing Plan", "content": final_plan})
+            print(f"{Fore.BLUE}Final Marketing Plan: {final_plan}{Style.RESET_ALL}\n", flush=True)
 
-        # Create styled Word document
-        create_styled_document(content, language)
-        logging.info("Marketing plan discussion completed")
+            # Create styled Word document
+            create_styled_document(content, language)
+            logging.info("Marketing plan discussion completed")
+
+        except Exception as e:
+            logging.error(f"An error occurred during the marketing plan discussion: {str(e)}")
+            print(f"{Fore.RED}Error: An unexpected error occurred. Please check the logs for more information.{Style.RESET_ALL}")
 
     def synthesize_plan(self, marketing, sales, strategy, analytics, product, additional_info):
         language = additional_info.get('language', 'english')
