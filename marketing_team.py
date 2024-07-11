@@ -7,8 +7,9 @@ from sales_ai_agent import SalesAIAgent
 from strategy_ai_agent import StrategyAIAgent
 from analytics_ai_agent import AnalyticsAIAgent
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, RGBColor
 from docx.enum.style import WD_STYLE_TYPE
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from colorama import init, Fore, Style
 
 # Initialize colorama
@@ -24,32 +25,39 @@ def create_styled_document(content):
     doc = Document()
     
     # Create and apply styles
-    if 'Title' not in doc.styles:
-        title_style = doc.styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
-        title_style.font.size = Pt(18)
-        title_style.font.bold = True
-    else:
-        title_style = doc.styles['Title']
+    title_style = doc.styles.add_style('CustomTitle', WD_STYLE_TYPE.PARAGRAPH)
+    title_style.font.name = 'Arial'
+    title_style.font.size = Pt(24)
+    title_style.font.color.rgb = RGBColor(0, 112, 192)  # Blue color
+    title_style.font.bold = True
+    title_style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
     
-    if 'Heading' not in doc.styles:
-        heading_style = doc.styles.add_style('Heading', WD_STYLE_TYPE.PARAGRAPH)
-        heading_style.font.size = Pt(14)
-        heading_style.font.bold = True
-    else:
-        heading_style = doc.styles['Heading']
+    heading_style = doc.styles.add_style('CustomHeading', WD_STYLE_TYPE.PARAGRAPH)
+    heading_style.font.name = 'Calibri'
+    heading_style.font.size = Pt(16)
+    heading_style.font.color.rgb = RGBColor(46, 116, 181)  # Dark blue color
+    heading_style.font.bold = True
     
-    if 'Body' not in doc.styles:
-        body_style = doc.styles.add_style('Body', WD_STYLE_TYPE.PARAGRAPH)
-        body_style.font.size = Pt(11)
-    else:
-        body_style = doc.styles['Body']
+    body_style = doc.styles.add_style('CustomBody', WD_STYLE_TYPE.PARAGRAPH)
+    body_style.font.name = 'Georgia'
+    body_style.font.size = Pt(11)
+    body_style.paragraph_format.space_after = Pt(12)
     
     # Add content to the document
-    doc.add_paragraph("Marketing Team Discussion", style='Title')
+    doc.add_paragraph("Marketing Team Discussion", style='CustomTitle')
     
     for section in content:
-        doc.add_paragraph(section['title'], style='Heading')
-        doc.add_paragraph(section['content'], style='Body')
+        doc.add_paragraph(section['title'], style='CustomHeading')
+        doc.add_paragraph(section['content'], style='CustomBody')
+    
+    # Add page numbers
+    section = doc.sections[0]
+    footer = section.footer
+    footer_para = footer.paragraphs[0]
+    footer_para.text = "Page "
+    footer_para.style = doc.styles['Footer']
+    footer_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    footer_para.add_run().add_field('PAGE')
     
     # Save the document
     doc.save('marketing_plan.docx')
