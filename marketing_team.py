@@ -162,18 +162,24 @@ def main():
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
     
-    product = input("Enter the product for the marketing plan (e.g., jet flame lighter or turbo handheld fans): ")
-    target_audience = input("Enter the target audience (optional, press Enter to skip): ")
-    marketing_goals = input("Enter specific marketing goals (optional, press Enter to skip): ")
-    budget = input("Enter the marketing budget (optional, press Enter to skip): ")
-    
-    additional_info = {
-        "target_audience": target_audience,
-        "marketing_goals": marketing_goals,
-        "budget": budget
-    }
-    
-    team.discuss_marketing_plan(product, additional_info)
+    while True:
+        product = input("Enter the product for the marketing plan (e.g., jet flame lighter or turbo handheld fans): ")
+        target_audience = input("Enter the target audience (optional, press Enter to skip): ")
+        marketing_goals = input("Enter specific marketing goals (optional, press Enter to skip): ")
+        budget = input("Enter the marketing budget (optional, press Enter to skip): ")
+        
+        additional_info = {
+            "target_audience": target_audience,
+            "marketing_goals": marketing_goals,
+            "budget": budget
+        }
+        
+        team.discuss_marketing_plan(product, additional_info)
+        
+        continue_discussion = input("Would you like to discuss another marketing plan? (yes/no): ").lower()
+        if continue_discussion != 'yes':
+            print("Thank you for using the Marketing Team AI. Goodbye!")
+            break
 
 if __name__ == "__main__":
     main()
