@@ -163,12 +163,11 @@ def main():
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
     
-    print("Please provide general details for your marketing plan:")
-    product = input("Enter product name: ").strip()
-    additional_info = input("Enter any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.): ").strip()
+    print("Please provide details for your marketing plan:")
+    brief = input("Enter product name and any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.): ").strip()
     
-    if not product or not additional_info:
-        print("Error: Please provide both the product name and additional information. Please try again.")
+    if not brief:
+        print("Error: Please provide information about the product and marketing context. Please try again.")
         return
     
     while True:
@@ -177,8 +176,10 @@ def main():
             break
         print("Invalid language. Please enter either 'english' or 'german'.")
     
+    # Extract product name from the brief (assuming it's the first word)
+    product = brief.split()[0]
     additional_info_dict = {
-        "additional_info": additional_info,
+        "additional_info": brief,
         "language": language
     }
     
