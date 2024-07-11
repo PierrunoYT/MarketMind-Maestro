@@ -55,11 +55,9 @@ def create_styled_document(content, language='english'):
     section = doc.sections[0]
     footer = section.footer
     footer_para = footer.paragraphs[0]
-    footer_para.text = "Page " if language == 'english' else "Seite "
+    footer_para.text = ("Page " if language == 'english' else "Seite ") + "{ PAGE }"
     footer_para.style = doc.styles['Footer']
     footer_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = footer_para.add_run()
-    run.add_field('PAGE')
     
     # Save the document
     filename = 'marketing_plan.docx' if language == 'english' else 'marketingplan.docx'
