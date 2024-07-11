@@ -97,7 +97,7 @@ class MarketingTeam:
 
         # Marketing Agent's initial input
         print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
-        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info, language=language)
+        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info)
         logging.debug(f"Marketing Agent response: {marketing_input}")
         content.append({"title": "Initial Marketing Campaign Idea", "content": marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
@@ -111,7 +111,7 @@ class MarketingTeam:
 
         # Strategy Agent's input based on Marketing and Sales
         print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
-        strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language)
+        strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language=language)
         logging.debug(f"Strategy Agent response: {strategy_input}")
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
@@ -125,7 +125,7 @@ class MarketingTeam:
 
         # Marketing Agent's final input based on all feedback
         print(f"{Fore.RED}Marketing Agent (Final): ", end='', flush=True)
-        final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}", language=language)
+        final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}")
         logging.debug(f"Final Marketing Agent response: {final_marketing_input}")
         content.append({"title": "Final Marketing Campaign Idea", "content": final_marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
@@ -141,6 +141,7 @@ class MarketingTeam:
         logging.info("Marketing plan discussion completed")
 
     def synthesize_plan(self, marketing, sales, strategy, analytics, product, additional_info):
+        language = additional_info.get('language', 'english')
         prompt = f"""
         Synthesize a comprehensive marketing plan for {product} based on the following inputs:
         Marketing: {marketing}
@@ -156,7 +157,7 @@ class MarketingTeam:
         Provide a cohesive plan that incorporates insights from all agents, specifically tailored for {product},
         taking into account the additional information provided.
         """
-        return self.marketing_agent.call_openrouter_api(prompt)
+        return self.marketing_agent.call_openrouter_api(prompt, language=language)
 
 def main():
     api_key = check_api_key()
