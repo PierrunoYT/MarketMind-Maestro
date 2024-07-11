@@ -15,7 +15,7 @@ class AnalyticsAIAgent:
             "Tech Enthusiasts": {"age": "Various", "interests": ["Gadgets", "Innovation", "Early adoption"]}
         }
 
-    def analyze_target_audience(self, product, additional_info=None):
+    def analyze_target_audience(self, product, additional_info=None, language='english'):
         """Analyze the target audience for a given product."""
         prompt = f"Conduct an in-depth target audience analysis for {product}. Your analysis should include:\n"
         prompt += "1. Detailed demographic profile (age, gender, income, education, occupation, location)\n"
