@@ -171,11 +171,20 @@ def main():
         print("Error: Please provide both the product name and additional information. Please try again.")
         return
     
-    language = input("Enter preferred language (english/german): ").strip().lower()
+    while True:
+        language = input("Enter preferred language (english/german): ").strip().lower()
+        if language in ['english', 'german']:
+            break
+        print("Invalid language. Please enter either 'english' or 'german'.")
     
-    team.discuss_marketing_plan(product, {"additional_info": additional_info, "language": language})
+    additional_info_dict = {
+        "additional_info": additional_info,
+        "language": language
+    }
     
-    print("Thank you for using the Marketing Team AI. Your marketing plan has been generated and saved.")
+    team.discuss_marketing_plan(product, additional_info_dict)
+    
+    print(f"Thank you for using the Marketing Team AI. Your marketing plan has been generated and saved in {language}.")
 
 if __name__ == "__main__":
     main()
