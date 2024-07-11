@@ -164,20 +164,32 @@ def main():
     team = MarketingTeam()
     
     print("Please provide details for your marketing plan:")
-    brief = input("Enter product name and any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.): ").strip()
+    print("Enter product name and any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.):")
+    print("Press Enter twice when you're done.")
+    
+    brief_lines = []
+    while True:
+        line = input()
+        if line.strip() == "":
+            if brief_lines:  # If we have content and encounter an empty line, break
+                break
+        else:
+            brief_lines.append(line)
+    
+    brief = " ".join(brief_lines)
     
     if not brief:
         print("Error: Please provide information about the product and marketing context. Please try again.")
         return
     
-    while True:
+    language = ''
+    while language not in ['english', 'german']:
         language = input("Enter preferred language (english/german): ").strip().lower()
-        if language in ['english', 'german']:
-            break
-        print("Invalid language. Please enter either 'english' or 'german'.")
+        if language not in ['english', 'german']:
+            print("Invalid language. Please enter either 'english' or 'german'.")
     
-    # Extract product name from the brief (assuming it's the first word)
-    product = brief.split()[0]
+    # Extract product name from the brief (assuming it's the first sentence up to the first period)
+    product = brief.split('.')[0].strip()
     additional_info_dict = {
         "additional_info": brief,
         "language": language
