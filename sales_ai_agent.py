@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import logging
 
 class SalesAIAgent:
     def __init__(self):
@@ -82,16 +83,16 @@ class SalesAIAgent:
                                 full_response += content
                                 print(content, end='', flush=True)
                             elif 'usage' in chunk_data:
-                                logging.info(f"Usage data: {chunk_data['usage']}")
+                                print(f"Usage data: {chunk_data['usage']}")
                         except json.JSONDecodeError as e:
-                            logging.error(f"JSON decode error: {e}")
-                            logging.error(f"Problematic chunk: {chunk}")
+                            print(f"JSON decode error: {e}")
+                            print(f"Problematic chunk: {chunk}")
                             continue
             print()  # Print a newline at the end
-            logging.info(f"Response ID: {response_id}")
+            print(f"Response ID: {response_id}")
             return full_response
         except requests.exceptions.RequestException as e:
-            logging.error(f"API request error: {e}")
+            print(f"API request error: {e}")
             return f"Error: {str(e)}"
 
     def respond_to_agent(self, message):
