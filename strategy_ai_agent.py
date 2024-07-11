@@ -29,7 +29,7 @@ class StrategyAIAgent:
             prompt += f"\nConsider the following additional context in your analysis:\n{additional_info}"
         return self.call_openrouter_api(prompt)
 
-    def call_openrouter_api(self, prompt):
+    def call_openrouter_api(self, prompt, language='english'):
         """Make a streaming API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -37,7 +37,7 @@ class StrategyAIAgent:
         }
         data = {
             "model": "anthropic/claude-3.5-sonnet",
-            "messages": [{"role": "user", "content": prompt}],
+            "messages": [{"role": "user", "content": f"Respond in {language}. {prompt}"}],
             "stream": True
         }
         try:

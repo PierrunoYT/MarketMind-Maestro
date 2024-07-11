@@ -36,7 +36,7 @@ class MarketingAIAgent:
         prompt = f"Suggest a budget allocation for a total marketing budget of ${total_budget}. Include at least 5 different marketing channels and provide a rationale for each allocation."
         return self.call_openrouter_api(prompt)
 
-    def call_openrouter_api(self, prompt):
+    def call_openrouter_api(self, prompt, language='english'):
         """Make a streaming API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -44,7 +44,7 @@ class MarketingAIAgent:
         }
         data = {
             "model": "anthropic/claude-3.5-sonnet",
-            "messages": [{"role": "user", "content": prompt}],
+            "messages": [{"role": "user", "content": f"Respond in {language}. {prompt}"}],
             "stream": True
         }
         response = requests.post(self.base_url, headers=headers, json=data, stream=True)
