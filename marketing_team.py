@@ -21,7 +21,7 @@ load_dotenv()
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def create_styled_document(content):
+def create_styled_document(content, language='english'):
     doc = Document()
     
     # Create and apply styles
@@ -44,7 +44,8 @@ def create_styled_document(content):
     body_style.paragraph_format.space_after = Pt(12)
     
     # Add content to the document
-    doc.add_paragraph("Marketing Team Discussion", style='CustomTitle')
+    title = "Marketing Team Discussion" if language == 'english' else "Marketing-Team-Diskussion"
+    doc.add_paragraph(title, style='CustomTitle')
     
     for section in content:
         doc.add_paragraph(section['title'], style='CustomHeading')
@@ -54,15 +55,16 @@ def create_styled_document(content):
     section = doc.sections[0]
     footer = section.footer
     footer_para = footer.paragraphs[0]
-    footer_para.text = "Page "
+    footer_para.text = "Page " if language == 'english' else "Seite "
     footer_para.style = doc.styles['Footer']
     footer_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = footer_para.add_run()
     run.add_field('PAGE')
     
     # Save the document
-    doc.save('marketing_plan.docx')
-    print("Marketing plan saved as 'marketing_plan.docx'")
+    filename = 'marketing_plan.docx' if language == 'english' else 'marketingplan.docx'
+    doc.save(filename)
+    print(f"Marketing plan saved as '{filename}'")
 
 def check_api_key():
     api_key = os.getenv("OPENROUTER_API_KEY")
@@ -93,6 +95,7 @@ class MarketingTeam:
         logging.info(f"Starting marketing plan discussion for {product}")
 
         content = []
+        language = additional_info.get('language', 'english')
 
         # Marketing Agent's initial input
         print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
@@ -136,7 +139,7 @@ class MarketingTeam:
         content.append({"title": "Final Marketing Plan", "content": final_plan})
 
         # Create styled Word document
-        create_styled_document(content)
+        create_styled_document(content, language)
         logging.info("Marketing plan discussion completed")
 
     def synthesize_plan(self, marketing, sales, strategy, analytics, product, additional_info):
@@ -172,6 +175,8 @@ def main():
     preferred_channels = input("Enter preferred marketing channels (comma-separated): ").split(',')
     past_campaigns = input("Enter brief details of any past campaigns (if any): ")
     
+    language = input("Enter the language for the marketing plan (english/german): ").lower()
+    
     additional_info = {
         "target_audience": target_audience,
         "marketing_goals": marketing_goals,
@@ -180,7 +185,8 @@ def main():
         "unique_selling_points": unique_selling_points,
         "timeframe": timeframe,
         "preferred_channels": preferred_channels,
-        "past_campaigns": past_campaigns
+        "past_campaigns": past_campaigns,
+        "language": language
     }
     
     team.discuss_marketing_plan(product, additional_info)
