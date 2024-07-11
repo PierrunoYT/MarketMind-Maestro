@@ -52,21 +52,27 @@ class AnalyticsAIAgent:
             response = requests.post(self.base_url, headers=headers, json=data, stream=True)
             response.raise_for_status()
             full_response = ""
+            response_id = None
             for line in response.iter_lines():
                 if line:
                     chunk = line.decode('utf-8')
                     if chunk.startswith("data: "):
                         try:
                             chunk_data = json.loads(chunk[6:])
+                            if 'id' in chunk_data and not response_id:
+                                response_id = chunk_data['id']
                             if chunk_data['choices'][0]['finish_reason'] is None:
                                 content = chunk_data['choices'][0]['delta'].get('content', '')
                                 full_response += content
                                 print(content, end='', flush=True)
+                            elif 'usage' in chunk_data:
+                                logging.info(f"Usage data: {chunk_data['usage']}")
                         except json.JSONDecodeError as e:
                             logging.error(f"JSON decode error: {e}")
                             logging.error(f"Problematic chunk: {chunk}")
                             continue
             print()  # Print a newline at the end
+            logging.info(f"Response ID: {response_id}")
             return full_response
         except requests.exceptions.RequestException as e:
             logging.error(f"API request error: {e}")
