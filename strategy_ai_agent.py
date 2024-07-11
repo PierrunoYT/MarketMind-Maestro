@@ -70,7 +70,7 @@ class StrategyAIAgent:
             logging.error(f"API request error: {e}")
             return f"Error: {str(e)}"
 
-    def respond_to_agent(self, message):
+    def respond_to_agent(self, message, language='english'):
         """Respond to messages from other agents."""
         prompt = f"As a strategy AI agent, respond to the following message from another agent: {message}"
-        return self.call_openrouter_api(prompt)
+        return self.call_openrouter_api(prompt, language=language)

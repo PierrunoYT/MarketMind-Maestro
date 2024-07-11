@@ -97,14 +97,14 @@ class MarketingTeam:
 
         # Marketing Agent's initial input
         print(f"{Fore.RED}Marketing Agent: ", end='', flush=True)
-        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info)
+        marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=additional_info, language=language)
         logging.debug(f"Marketing Agent response: {marketing_input}")
         content.append({"title": "Initial Marketing Campaign Idea", "content": marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
 
         # Sales Agent's response to Marketing
         print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
-        sales_input = self.sales_agent.respond_to_agent(marketing_input)
+        sales_input = self.sales_agent.respond_to_agent(marketing_input, language=language)
         logging.debug(f"Sales Agent response: {sales_input}")
         content.append({"title": "Sales Agent Feedback", "content": sales_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
@@ -125,7 +125,7 @@ class MarketingTeam:
 
         # Marketing Agent's final input based on all feedback
         print(f"{Fore.RED}Marketing Agent (Final): ", end='', flush=True)
-        final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}")
+        final_marketing_input = self.marketing_agent.generate_campaign_idea(product, additional_info=f"{sales_input}\n{strategy_input}\n{analytics_input}", language=language)
         logging.debug(f"Final Marketing Agent response: {final_marketing_input}")
         content.append({"title": "Final Marketing Campaign Idea", "content": final_marketing_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
