@@ -7,6 +7,7 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 ### Marketing Team
 - Coordinate discussions between multiple AI agents
 - Generate comprehensive marketing plans based on input from all agents
+- Create styled Word documents with the final marketing plan
 
 ### Marketing AI Agent
 - Generate detailed marketing campaign ideas
@@ -22,9 +23,22 @@ This project implements an advanced Marketing and Sales AI Team using OpenRouter
 - Suggest follow-up strategies
 - Analyze sales performance data
 
-### Strategy and Analytics Agents
+### Strategy AI Agent
 - Provide strategic insights and market analysis
-- Offer data-driven recommendations for marketing campaigns
+- Analyze market trends and their impact on the product
+- Offer recommendations for leveraging trends and mitigating risks
+
+### Analytics AI Agent
+- Conduct in-depth target audience analysis
+- Provide detailed demographic and psychographic profiles
+- Analyze behavioral patterns and decision-making processes
+- Suggest tailored messaging strategies for different audience segments
+
+## New Features
+- Multi-language support (English and German)
+- Interactive command-line interface with colorful output
+- Progress indicators for each AI agent's thinking process
+- Styled Word document output with custom formatting
 
 ## Requirements
 
@@ -64,11 +78,19 @@ Run the main script to interact with the Marketing AI Team:
 python marketing_team.py
 ```
 
-Enter your marketing-related question when prompted, and the AI team will collaborate to create a comprehensive marketing plan.
+Follow the prompts to enter your product information, additional context, and preferred language. The AI team will collaborate to create a comprehensive marketing plan and save it as a styled Word document.
 
 ## Customization
 
-You can easily extend the `MarketingAIAgent`, `SalesAIAgent`, and `MarketingTeam` classes to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
+You can easily extend the `MarketingAIAgent`, `SalesAIAgent`, `StrategyAIAgent`, `AnalyticsAIAgent`, and `MarketingTeam` classes to add more functionalities or modify existing ones. The `call_openrouter_api` method can be used to make custom queries to the AI model.
+
+## Testing
+
+Unit tests are provided in the `test_marketing_team.py` file. Run the tests using:
+
+```
+python -m unittest test_marketing_team.py
+```
 
 ## Note
 
