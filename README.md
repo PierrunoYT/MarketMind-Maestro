@@ -98,4 +98,4 @@ Ensure you have a valid OpenRouter API key and sufficient credits to make API ca
 
 ## License
 
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](LICENSE).
