@@ -64,7 +64,7 @@ class AnalyticsAIAgent:
                             if chunk_data['choices'][0]['finish_reason'] is None:
                                 content = chunk_data['choices'][0]['delta'].get('content', '')
                                 full_response += content
-                                print(content, end='', flush=True)
+                                pass
                             elif 'usage' in chunk_data:
                                 logging.info(f"Usage data: {chunk_data['usage']}")
                         except json.JSONDecodeError as e:

@@ -81,7 +81,7 @@ class SalesAIAgent:
                             if chunk_data['choices'][0]['finish_reason'] is None:
                                 content = chunk_data['choices'][0]['delta'].get('content', '')
                                 full_response += content
-                                print(content, end='', flush=True)
+                                pass
                             elif 'usage' in chunk_data:
                                 print(f"Usage data: {chunk_data['usage']}")
                         except json.JSONDecodeError as e:

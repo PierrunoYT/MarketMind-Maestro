@@ -61,7 +61,7 @@ class MarketingAIAgent:
                                 if chunk_data['choices'][0]['finish_reason'] is None:
                                     content = chunk_data['choices'][0]['delta'].get('content', '')
                                     full_response += content
-                                    print(content, end='', flush=True)
+                                    pass
                         except json.JSONDecodeError as e:
                             print(f"Error decoding JSON: {e}")
                             print(f"Problematic chunk: {chunk}")
