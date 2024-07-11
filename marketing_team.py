@@ -111,7 +111,7 @@ class MarketingTeam:
 
         # Strategy Agent's input based on Marketing and Sales
         print(f"{Fore.YELLOW}Strategy Agent: ", end='', flush=True)
-        strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language=language)
+        strategy_input = self.strategy_agent.analyze_market_trends(product, f"{marketing_input}\n{sales_input}", language)
         logging.debug(f"Strategy Agent response: {strategy_input}")
         content.append({"title": "Market Trends Analysis", "content": strategy_input})
         print(f"{Style.RESET_ALL}\n", flush=True)

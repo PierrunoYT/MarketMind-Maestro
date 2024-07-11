@@ -16,7 +16,7 @@ class StrategyAIAgent:
             "Sustainability": "Eco-friendly practices and messaging in marketing campaigns"
         }
 
-    def analyze_market_trends(self, product, additional_info=None):
+    def analyze_market_trends(self, product, additional_info=None, language='english'):
         """Provide detailed market trend analysis."""
         prompt = f"Conduct a comprehensive market trend analysis for {product}. Your analysis should include:\n"
         prompt += "1. Identification and detailed description of at least 5 significant trends impacting the industry\n"
@@ -27,7 +27,7 @@ class StrategyAIAgent:
         prompt += "6. Short-term (6-12 months) and long-term (2-5 years) projections for each trend\n"
         if additional_info:
             prompt += f"\nConsider the following additional context in your analysis:\n{additional_info}"
-        return self.call_openrouter_api(prompt)
+        return self.call_openrouter_api(prompt, language)
 
     def call_openrouter_api(self, prompt, language='english'):
         """Make a streaming API call to OpenRouter's Anthropic Claude-3.5-sonnet model."""
