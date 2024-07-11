@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import logging
 
 class AnalyticsAIAgent:
     def __init__(self):
@@ -47,22 +48,29 @@ class AnalyticsAIAgent:
             "messages": [{"role": "user", "content": prompt}],
             "stream": True
         }
-        response = requests.post(self.base_url, headers=headers, json=data, stream=True)
-        if response.status_code == 200:
+        try:
+            response = requests.post(self.base_url, headers=headers, json=data, stream=True)
+            response.raise_for_status()
             full_response = ""
             for line in response.iter_lines():
                 if line:
                     chunk = line.decode('utf-8')
                     if chunk.startswith("data: "):
-                        chunk_data = json.loads(chunk[6:])
-                        if chunk_data['choices'][0]['finish_reason'] is None:
-                            content = chunk_data['choices'][0]['delta'].get('content', '')
-                            full_response += content
-                            print(content, end='', flush=True)
+                        try:
+                            chunk_data = json.loads(chunk[6:])
+                            if chunk_data['choices'][0]['finish_reason'] is None:
+                                content = chunk_data['choices'][0]['delta'].get('content', '')
+                                full_response += content
+                                print(content, end='', flush=True)
+                        except json.JSONDecodeError as e:
+                            logging.error(f"JSON decode error: {e}")
+                            logging.error(f"Problematic chunk: {chunk}")
+                            continue
             print()  # Print a newline at the end
             return full_response
-        else:
-            return f"Error: {response.status_code}, {response.text}"
+        except requests.exceptions.RequestException as e:
+            logging.error(f"API request error: {e}")
+            return f"Error: {str(e)}"
 
     def respond_to_agent(self, message):
         """Respond to messages from other agents."""
