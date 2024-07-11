@@ -14,7 +14,7 @@ class MarketingAIAgent:
             "SEO Optimization": ["On-page SEO", "Off-page SEO", "Technical SEO", "Local SEO"]
         }
     
-    def generate_campaign_idea(self, product, strategy=None, additional_info=None):
+    def generate_campaign_idea(self, product, strategy=None, additional_info=None, language='english'):
         """Generate a detailed marketing campaign idea."""
         prompt = f"Generate a comprehensive, innovative marketing campaign idea for {product} using {strategy if strategy else 'the most suitable marketing strategy'}. Include specific tactics, channels, and a timeline for implementation. Consider the following aspects:\n"
         prompt += "1. Unique selling points of the product\n"
@@ -24,7 +24,7 @@ class MarketingAIAgent:
         prompt += "5. Measurable KPIs for campaign success\n"
         if additional_info:
             prompt += f"\nAdditional context: {additional_info}"
-        return self.call_openrouter_api(prompt)
+        return self.call_openrouter_api(prompt, language)
     
     def analyze_competitors(self, competitors):
         """Perform a competitor analysis."""
