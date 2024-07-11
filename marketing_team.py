@@ -104,7 +104,7 @@ class MarketingTeam:
 
         # Sales Agent's response to Marketing
         print(f"{Fore.GREEN}Sales Agent: ", end='', flush=True)
-        sales_input = self.sales_agent.respond_to_agent(marketing_input, language=language)
+        sales_input = self.sales_agent.respond_to_agent(marketing_input)
         logging.debug(f"Sales Agent response: {sales_input}")
         content.append({"title": "Sales Agent Feedback", "content": sales_input})
         print(f"{Style.RESET_ALL}\n", flush=True)
