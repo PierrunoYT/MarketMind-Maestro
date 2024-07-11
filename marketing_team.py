@@ -162,24 +162,30 @@ def main():
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
     
-    while True:
-        product = input("Enter the product for the marketing plan (e.g., jet flame lighter or turbo handheld fans): ")
-        target_audience = input("Enter the target audience (optional, press Enter to skip): ")
-        marketing_goals = input("Enter specific marketing goals (optional, press Enter to skip): ")
-        budget = input("Enter the marketing budget (optional, press Enter to skip): ")
-        
-        additional_info = {
-            "target_audience": target_audience,
-            "marketing_goals": marketing_goals,
-            "budget": budget
-        }
-        
-        team.discuss_marketing_plan(product, additional_info)
-        
-        continue_discussion = input("Would you like to discuss another marketing plan? (yes/no): ").lower()
-        if continue_discussion != 'yes':
-            print("Thank you for using the Marketing Team AI. Goodbye!")
-            break
+    product = input("Enter the product for the marketing plan: ")
+    target_audience = input("Enter the target audience: ")
+    marketing_goals = input("Enter specific marketing goals: ")
+    budget = input("Enter the marketing budget: ")
+    competitors = input("Enter main competitors (comma-separated): ").split(',')
+    unique_selling_points = input("Enter unique selling points of the product: ")
+    timeframe = input("Enter the timeframe for the marketing plan (e.g., 3 months, 1 year): ")
+    preferred_channels = input("Enter preferred marketing channels (comma-separated): ").split(',')
+    past_campaigns = input("Enter brief details of any past campaigns (if any): ")
+    
+    additional_info = {
+        "target_audience": target_audience,
+        "marketing_goals": marketing_goals,
+        "budget": budget,
+        "competitors": competitors,
+        "unique_selling_points": unique_selling_points,
+        "timeframe": timeframe,
+        "preferred_channels": preferred_channels,
+        "past_campaigns": past_campaigns
+    }
+    
+    team.discuss_marketing_plan(product, additional_info)
+    
+    print("Thank you for using the Marketing Team AI. Your marketing plan has been generated and saved.")
 
 if __name__ == "__main__":
     main()
