@@ -163,31 +163,20 @@ def main():
     os.environ["OPENROUTER_API_KEY"] = api_key
     team = MarketingTeam()
     
-    print("Please provide the following details for your marketing plan:")
-    details = input("Enter product name, target audience, marketing goals, budget, competitors (comma-separated), "
-                    "unique selling points, timeframe, preferred marketing channels (comma-separated), "
-                    "past campaigns (if any), and language (english/german), separated by semicolons:\n")
+    print("Please provide general details for your marketing plan:")
+    details = input("Enter product name and any additional important information (e.g., target audience, goals, budget, competitors, unique selling points, timeframe, etc.), separated by semicolons:\n")
     
     details_list = details.split(';')
-    if len(details_list) != 10:
-        print("Error: Incorrect number of details provided. Please try again.")
+    if len(details_list) < 2:
+        print("Error: Please provide at least the product name and some additional information. Please try again.")
         return
     
-    product, target_audience, marketing_goals, budget, competitors, unique_selling_points, timeframe, preferred_channels, past_campaigns, language = details_list
+    product = details_list[0].strip()
+    additional_info = "; ".join(details_list[1:]).strip()
     
-    additional_info = {
-        "target_audience": target_audience.strip(),
-        "marketing_goals": marketing_goals.strip(),
-        "budget": budget.strip(),
-        "competitors": [comp.strip() for comp in competitors.split(',')],
-        "unique_selling_points": unique_selling_points.strip(),
-        "timeframe": timeframe.strip(),
-        "preferred_channels": [channel.strip() for channel in preferred_channels.split(',')],
-        "past_campaigns": past_campaigns.strip(),
-        "language": language.strip().lower()
-    }
+    language = input("Enter preferred language (english/german): ").strip().lower()
     
-    team.discuss_marketing_plan(product.strip(), additional_info)
+    team.discuss_marketing_plan(product, {"additional_info": additional_info, "language": language})
     
     print("Thank you for using the Marketing Team AI. Your marketing plan has been generated and saved.")
 
